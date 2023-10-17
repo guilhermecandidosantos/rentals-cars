@@ -78,7 +78,7 @@ CREATE TABLE "cars" (
     "name" VARCHAR(100) NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "dailyRate" DECIMAL(65,30) NOT NULL,
-    "avaliable" BOOLEAN NOT NULL DEFAULT true,
+    "available" BOOLEAN NOT NULL DEFAULT true,
     "licensePlate" VARCHAR(7) NOT NULL,
     "fineAmount" DECIMAL(65,30) NOT NULL,
     "brand" VARCHAR(100) NOT NULL,

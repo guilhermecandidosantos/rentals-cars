@@ -101,7 +101,7 @@ model Car {
   name            String   @db.VarChar(100)
   description     String   @db.VarChar(255)
   dailyRate       Decimal
-  avaliable       Boolean  @default(true)
+  available       Boolean  @default(true)
   licensePlate    String   @db.VarChar(7)
   fineAmount      Decimal
   brand           String   @db.VarChar(100)
