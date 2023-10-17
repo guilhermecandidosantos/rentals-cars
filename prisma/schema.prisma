@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id
+  name      String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  username  String   @db.VarChar(100)
+  password  String   @db.VarChar(100)
+  admin     EnumS_N  @default(N)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  createdClient        Client[]        @relation(name: "userCreatedClient")
+  updatedClient        Client[]        @relation(name: "userUpdatedClient")
+  createadCategory     Category[]      @relation(name: "userCreateCategory")
+  updatedCategory      Category[]      @relation(name: "userUpdatedCategory")
+  createdSpecification Specification[] @relation(name: "userCreatedSpecification")
+  updatedSpecification Specification[] @relation(name: "userUpdatedSpecification")
+  createdCar           Car[]           @relation(name: "userCreatedCar")
+  updatedCar           Car[]           @relation(name: "userUpdatedCar")
+  createdRental        Rental[]        @relation(name: "userCreatedRental")
+  updatedRental        Rental[]        @relation(name: "userUpdatedRental")
+
+  @@map("users")
+}
+
+model Client {
+  id                     String   @id
+  name                   String   @db.VarChar(255)
+  email                  String   @unique @db.VarChar(255)
+  driverLincense         String   @db.VarChar(255)
+  validityDriverLincense DateTime @db.Timestamptz(3)
+  phone01                String   @db.VarChar(20)
+  phone02                String?  @db.VarChar(20)
+  phone03                String?  @db.VarChar(20)
+  phone04                String?  @db.VarChar(20)
+  userIdCreated          String
+  createdAt              DateTime @default(now()) @db.Timestamptz(3)
+  userIdUpdated          String
+  updatedAt              DateTime @updatedAt @db.Timestamptz(3)
+
+  userCreatedClient User @relation(fields: [userIdCreated], references: [id], name: "userCreatedClient")
+  userUpdatedClient User @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedClient")
+
+  clientRental Rental[] @relation(name: "clientRental")
+
+  @@map("clients")
+}
+
+model Category {
+  id            String   @id
+  name          String   @db.VarChar(100)
+  description   String   @db.VarChar(255)
+  userIdCreated String
+  createdAt     DateTime @default(now()) @db.Timestamptz(3)
+  userIdUpdated String   @db.VarChar(255)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(3)
+
+  userCreatedCategory User @relation(fields: [userIdCreated], references: [id], name: "userCreateCategory")
+  userUpdatedCategory User @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedCategory")
+
+  categoryCar Car[] @relation(name: "categoryCar")
+
+  @@map("categories")
+}
+
+model Specification {
+  id              String       @id
+  name            String       @db.VarChar(100)
+  description     String       @db.VarChar(255)
+  airConditioning EnumS_N
+  steering        EnumSteering
+  airBag          EnumS_N
+  fourForFour     EnumS_N
+  electricWindow  EnumS_N
+  windows         EnumS_N?
+  userIdCreated   String
+  createdAt       DateTime     @default(now()) @db.Timestamptz(3)
+  userIdUpdated   String
+  updatedAt       DateTime     @updatedAt @db.Timestamptz(3)
+
+  userCreatedSpecification User  @relation(fields: [userIdCreated], references: [id], name: "userCreatedSpecification")
+  userUpdatedSpecification User  @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedSpecification")
+  specificationCar         Car[] @relation(name: "specificationCar")
+
+  @@map("specifications")
+}
+
+model Car {
+  id              String   @id
+  name            String   @db.VarChar(100)
+  description     String   @db.VarChar(255)
+  dailyRate       Decimal
+  avaliable       Boolean  @default(true)
+  licensePlate    String   @db.VarChar(7)
+  fineAmount      Decimal
+  brand           String   @db.VarChar(100)
+  categoryId      String   @db.VarChar(255)
+  specificationId String   @db.VarChar(255)
+  userIdCreated   String
+  createdAt       DateTime @default(now()) @db.Timestamptz(3)
+  userIdUpdated   String
+  updatedAt       DateTime @updatedAt @db.Timestamptz(3)
+
+  userCreatedCar User          @relation(fields: [userIdCreated], references: [id], name: "userCreatedCar")
+  userUpdatedCar User          @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedCar")
+  category       Category      @relation(fields: [categoryId], references: [id], name: "categoryCar")
+  specification  Specification @relation(fields: [specificationId], references: [id], name: "specificationCar")
+
+  carRental Rental[] @relation(name: "carRental")
+
+  @@map("cars")
+}
+
+model Rental {
+  id                 String    @id
+  carId              String
+  clientId           String
+  startDate          DateTime  @db.Timestamptz(3)
+  endDate            DateTime? @db.Timestamptz(3)
+  expectedReturnDate DateTime  @db.Timestamptz(3)
+  total              Decimal
+  userIdCreated      String
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  userIdUpdated      String
+  updatedAt          DateTime  @default(now()) @db.Timestamptz(3)
+
+  userCreatedRental User   @relation(fields: [userIdCreated], references: [id], name: "userCreatedRental")
+  userUpdatedRental User   @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedRental")
+  clientRental      Client @relation(fields: [clientId], references: [id], name: "clientRental")
+  carRental         Car    @relation(fields: [carId], references: [id], name: "carRental")
+
+  @@map("rentals")
+}
+
+enum EnumS_N {
+  S
+  N
+}
+
+enum EnumSteering {
+  manual
+  electrical
+  hydraulics
+}
+
+enum EnumWindows {
+  two
+  four
+}
