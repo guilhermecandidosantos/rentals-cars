@@ -1,9 +1,14 @@
 import express, { NextFunction, Request, Response } from "express";
 import { AppError } from "shared/errors/AppError";
 
+import "express-async-errors";
+import "reflect-metadata";
 import { routes } from "./routes";
+import "@shared/container";
 
 const app = express();
+
+app.use(express.json());
 
 app.use(routes);
 

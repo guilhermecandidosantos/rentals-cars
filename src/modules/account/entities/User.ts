@@ -1,21 +1,16 @@
-import { v4 as uuidId } from "uuid";
+import { S_N } from "../enums/EnumS_N";
 
-import { TAdmin } from "../types/TAdmin";
+const adminType = S_N;
 
+type TAdmin = keyof typeof adminType;
 class User {
   id: string;
   name: string;
   email: string;
   password: string;
-  admin: TAdmin;
-  createdAt: Date;
-  updatedAt: Date;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuidId();
-    }
-  }
+  admin?: TAdmin;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export { User };
