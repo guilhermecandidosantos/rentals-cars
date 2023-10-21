@@ -3,10 +3,10 @@ import { User } from "@modules/account/entities/User";
 import { PrismaClient } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
 
-import { IUserRepository } from "../IUserRepository";
+import { IUsersRepository } from "../IUsersRepository";
 
 @injectable()
-class UserRepository implements IUserRepository {
+class UsersRepository implements IUsersRepository {
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient,
@@ -41,4 +41,4 @@ class UserRepository implements IUserRepository {
   }
 }
 
-export { UserRepository };
+export { UsersRepository };

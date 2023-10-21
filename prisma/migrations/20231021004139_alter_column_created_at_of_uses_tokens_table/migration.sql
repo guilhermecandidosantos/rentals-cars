@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "users_tokens" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;

@@ -30,8 +30,21 @@ model User {
   updatedCar           Car[]           @relation(name: "userUpdatedCar")
   createdRental        Rental[]        @relation(name: "userCreatedRental")
   updatedRental        Rental[]        @relation(name: "userUpdatedRental")
+  user_Token           User_Token[]
 
   @@map("users")
+}
+
+model User_Token {
+  id           String   @id @db.VarChar(255)
+  refreshToken String   @db.VarChar(255)
+  userId       String   @db.VarChar(255)
+  expiresDate  DateTime @db.Timestamptz(3)
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("users_tokens")
 }
 
 model Client {
