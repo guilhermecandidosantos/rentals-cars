@@ -4,6 +4,7 @@ import { IUsersRepository } from "@modules/account/repositories/IUsersRepository
 import { IUsersTokensRepository } from "@modules/account/repositories/IUsersTokensRepository";
 import { PrismaClient } from "@prisma/client";
 import { container } from "tsyringe";
+import "./provider/dateprovider";
 
 container.register<PrismaClient>("PrismaClient", { useValue: new PrismaClient() });
 

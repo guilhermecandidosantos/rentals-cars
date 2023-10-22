@@ -157,8 +157,8 @@ model Rental {
 }
 
 enum EnumS_N {
-  S
   N
+  S
 }
 
 enum EnumSteering {
