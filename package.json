@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch ./src/shared/http/server.ts"
+    "dev": "tsx watch ./src/shared/http/server.ts",
+    "seed": "prisma db execute --file ./prisma/insert/insert.sql"
   },
   "keywords": [],
   "author": "",

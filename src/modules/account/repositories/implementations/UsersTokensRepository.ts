@@ -30,6 +30,12 @@ class UsersTokensRepository implements IUsersTokensRepository {
   async deleteById(id: string): Promise<void> {
     await this.prisma.user_Token.delete({ where: { id } });
   }
+
+  async findByUserId(userId: string): Promise<UserToken> {
+    const userToken = await this.prisma.user_Token.findFirst({ where: { userId } });
+
+    return userToken;
+  }
 }
 
 export { UsersTokensRepository };

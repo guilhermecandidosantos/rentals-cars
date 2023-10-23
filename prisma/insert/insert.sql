@@ -1,0 +1,1 @@
+insert into users values ('5705545d-7389-4e45-b89b-912284669e05','administrador','admin@admin.com','admin','$2a$08$i33iEWKE6lvUWGlkxqY9leEc8cBPiUS1oo5u.136AP/oBvEsZ8i8y','S',now(),now());
