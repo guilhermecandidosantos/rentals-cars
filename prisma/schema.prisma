@@ -48,22 +48,22 @@ model User_Token {
 }
 
 model Client {
-  id                     String   @id
-  name                   String   @db.VarChar(255)
-  email                  String   @unique @db.VarChar(255)
-  driverLincense         String   @db.VarChar(255)
-  validityDriverLincense DateTime @db.Timestamptz(3)
-  phone01                String   @db.VarChar(20)
-  phone02                String?  @db.VarChar(20)
-  phone03                String?  @db.VarChar(20)
-  phone04                String?  @db.VarChar(20)
-  userIdCreated          String
-  createdAt              DateTime @default(now()) @db.Timestamptz(3)
-  userIdUpdated          String
-  updatedAt              DateTime @updatedAt @db.Timestamptz(3)
+  id                    String   @id
+  name                  String   @db.VarChar(255)
+  email                 String   @unique @db.VarChar(255)
+  driverLicense         String   @db.VarChar(255)
+  validityDriverLicense DateTime @db.Timestamptz(3)
+  phone01               String   @db.VarChar(20)
+  phone02               String?  @db.VarChar(20)
+  phone03               String?  @db.VarChar(20)
+  phone04               String?  @db.VarChar(20)
+  userIdCreated         String
+  createdAt             DateTime @default(now()) @db.Timestamptz(3)
+  userIdUpdated         String?
+  updatedAt             DateTime @updatedAt @db.Timestamptz(3)
 
-  userCreatedClient User @relation(fields: [userIdCreated], references: [id], name: "userCreatedClient")
-  userUpdatedClient User @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedClient")
+  userCreatedClient User  @relation(fields: [userIdCreated], references: [id], name: "userCreatedClient")
+  userUpdatedClient User? @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedClient")
 
   clientRental Rental[] @relation(name: "clientRental")
 
