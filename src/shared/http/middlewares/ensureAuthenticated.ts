@@ -23,7 +23,6 @@ export async function ensureAuthenticated(
 
   try {
     const { sub: userId } = verify(token, auth.secretsToken) as IPayload;
-
     request.user = {
       id: userId,
     };

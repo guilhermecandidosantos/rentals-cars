@@ -51,7 +51,7 @@ model Client {
   id                    String   @id
   name                  String   @db.VarChar(255)
   email                 String   @unique @db.VarChar(255)
-  driverLicense         String   @db.VarChar(255)
+  driverLicense         String   @unique @db.VarChar(255)
   validityDriverLicense DateTime @db.Timestamptz(3)
   phone01               String   @db.VarChar(20)
   phone02               String?  @db.VarChar(20)

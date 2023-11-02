@@ -58,6 +58,18 @@ class ClientsRepositories implements IClientsRepositories {
 
     return client;
   }
+
+  async findByEmail(email: string): Promise<Client> {
+    const client = await this.prisma.client.findUnique({ where: { email } });
+
+    return client;
+  }
+
+  async findByDriverLicense(driverLicense: string): Promise<Client> {
+    const client = await this.prisma.client.findUnique({ where: { driverLicense } });
+
+    return client;
+  }
 }
 
 export { ClientsRepositories };

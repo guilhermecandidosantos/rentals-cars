@@ -10,8 +10,13 @@ class DateProvider implements IDateProvider {
     return dayjs().utc().local().add(days, "day")
       .toDate();
   }
+
   isBefore(start: number, end: number): boolean {
     return dayjs.utc(start).isBefore(end);
+  }
+
+  returnDate(date: string): Date {
+    return new Date(dayjs(date).utc().local().format("DD-MM-YYYY HH:mm:ss"));
   }
 }
 
