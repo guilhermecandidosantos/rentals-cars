@@ -5,6 +5,7 @@ import { generateTokens } from "utils/functions/tokens";
 import { v4 } from "uuid";
 
 import { IDateProvider } from "@shared/container/provider/dateprovider/IDateProvider";
+import { AppError } from "@shared/errors/AppError";
 
 @injectable()
 class RefreshTokenUseCase {
@@ -22,6 +23,15 @@ class RefreshTokenUseCase {
     const id = v4();
 
     const expiresDate = this.dateProvider.expiresIn(1);
+
+    const userToken = await this.usersTokensRepository
+      .findByUserIdAndRefreshToken(userId, refreshToken);
+
+    if (userToken) {
+      await this.usersTokensRepository.deleteById(userToken.id);
+    } else {
+      throw new AppError("Token is missing", 401);
+    }
 
     await this.usersTokensRepository.create({
       id, userId, refreshToken: refreshTokenNew, expiresDate,

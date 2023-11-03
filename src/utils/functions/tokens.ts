@@ -23,10 +23,8 @@ export async function generateTokens(refreshToken: string): Promise<IResponse> {
 
   const userToken = await usersTokensRepository.findByUserIdAndRefreshToken(userId, refreshToken);
 
-  if (userToken) {
-    await usersTokensRepository.deleteById(userToken.id);
-  } else {
-    throw new AppError("Token is missing", 401);
+  if (!userToken) {
+    throw new AppError("Token not found");
   }
 
   const newRefreshToken = sign(
