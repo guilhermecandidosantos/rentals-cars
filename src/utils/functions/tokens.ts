@@ -1,9 +1,5 @@
 import { auth } from "@config/auth";
-import { UsersTokensRepository } from "@modules/account/repositories/implementations/UsersTokensRepository";
 import { sign, verify } from "jsonwebtoken";
-import { container } from "tsyringe";
-
-import { AppError } from "@shared/errors/AppError";
 
 interface IPayload {
   sub: string;
@@ -16,24 +12,16 @@ interface IResponse {
   userId: string
 }
 
-export async function generateTokens(refreshToken: string): Promise<IResponse> {
+export function generateTokens(refreshToken: string): IResponse {
   const { sub: userId, username } = verify(refreshToken, auth.secretsRefreshToken) as IPayload;
 
-  const usersTokensRepository = container.resolve(UsersTokensRepository);
-
-  const userToken = await usersTokensRepository.findByUserIdAndRefreshToken(userId, refreshToken);
-
-  if (!userToken) {
-    throw new AppError("Token not found");
-  }
-
   const newRefreshToken = sign(
-    {},
+    { username },
     auth.secretsRefreshToken,
-    { expiresIn: auth.expiresRefreshTokens },
+    { expiresIn: auth.expiresRefreshTokens, subject: userId },
   );
 
-  const token = sign({ username }, auth.secretsToken, { expiresIn: auth.expiresTokens });
+  const token = sign({}, auth.secretsToken, { expiresIn: auth.expiresTokens, subject: userId });
 
   const response = {
     token,

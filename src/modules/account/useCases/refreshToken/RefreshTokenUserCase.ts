@@ -16,16 +16,20 @@ class RefreshTokenUseCase {
     private dateProvider: IDateProvider,
   ) {}
   async execute(refreshToken: string): Promise<IResponseDTO> {
-    const tokens = await generateTokens(refreshToken);
+    const tokens = generateTokens(refreshToken);
 
     const { token, refreshToken: refreshTokenNew, userId } = tokens;
+
+    const userToken = await this.usersTokensRepository
+      .findByUserIdAndRefreshToken(userId, refreshToken);
+
+    if (!userToken) {
+      throw new AppError("Token not found");
+    }
 
     const id = v4();
 
     const expiresDate = this.dateProvider.expiresIn(1);
-
-    const userToken = await this.usersTokensRepository
-      .findByUserIdAndRefreshToken(userId, refreshToken);
 
     if (userToken) {
       await this.usersTokensRepository.deleteById(userToken.id);
