@@ -1,8 +1,4 @@
-import { S_N } from "../enums/EnumS_N";
-
-const adminType = S_N;
-
-type TAdmin = keyof typeof adminType;
+import { EnumSN } from "enums";
 
 interface ICreateUserDTO {
   id?: string
@@ -10,7 +6,7 @@ interface ICreateUserDTO {
   username: string;
   email: string;
   password: string;
-  admin?: TAdmin;
+  admin?: EnumSN;
 }
 
 export { ICreateUserDTO };

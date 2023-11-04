@@ -1,4 +1,4 @@
-import { S_N } from "../enums/EnumS_N";
+import { S_N } from "../../../enums";
 
 const adminType = S_N;
 
