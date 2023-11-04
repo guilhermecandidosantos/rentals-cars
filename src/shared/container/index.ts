@@ -7,6 +7,8 @@ import { ClientsRepositories } from "@modules/client/repositories/implementation
 import { PrismaClient } from "@prisma/client";
 import { container } from "tsyringe";
 import "./provider/dateprovider";
+import { ICategoriesRepository } from "@modules/car/repositories/ICategoriesRepository";
+import { CategoriesRepository } from "@modules/car/repositories/implementations/CategoriesRepository";
 
 container.register<PrismaClient>("PrismaClient", { useValue: new PrismaClient() });
 
@@ -23,4 +25,9 @@ container.registerSingleton<IUsersTokensRepository>(
 container.registerSingleton<IClientsRepositories>(
   "ClientsRepositories",
   ClientsRepositories,
+);
+
+container.registerSingleton<ICategoriesRepository>(
+  "CategoriesRepository",
+  CategoriesRepository,
 );

@@ -72,15 +72,15 @@ model Client {
 
 model Category {
   id            String   @id
-  name          String   @db.VarChar(100)
+  name          String   @unique @db.VarChar(100)
   description   String   @db.VarChar(255)
   userIdCreated String
   createdAt     DateTime @default(now()) @db.Timestamptz(3)
-  userIdUpdated String   @db.VarChar(255)
+  userIdUpdated String?  @db.VarChar(255)
   updatedAt     DateTime @updatedAt @db.Timestamptz(3)
 
-  userCreatedCategory User @relation(fields: [userIdCreated], references: [id], name: "userCreateCategory")
-  userUpdatedCategory User @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedCategory")
+  userCreatedCategory User  @relation(fields: [userIdCreated], references: [id], name: "userCreateCategory")
+  userUpdatedCategory User? @relation(fields: [userIdUpdated], references: [id], name: "userUpdatedCategory")
 
   categoryCar Car[] @relation(name: "categoryCar")
 
