@@ -3,10 +3,10 @@ import { Client } from "@modules/client/entities/Client";
 import { PrismaClient } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
 
-import { IClientsRepositories } from "../IClientsRepositories";
+import { IClientsRepository } from "../IClientsRepository";
 
 @injectable()
-class ClientsRepositories implements IClientsRepositories {
+class ClientsRepository implements IClientsRepository {
   constructor(
     @inject("PrismaClient")
     private prisma: PrismaClient,
@@ -70,6 +70,18 @@ class ClientsRepositories implements IClientsRepositories {
 
     return client;
   }
+
+  async listByUserIdCreated(userId: string): Promise<Client[]> {
+    const clients = await this.prisma.client.findMany({ where: { userIdCreated: userId } });
+
+    return clients;
+  }
+
+  async listAll(): Promise<Client[]> {
+    const clients = await this.prisma.client.findMany();
+
+    return clients;
+  }
 }
 
-export { ClientsRepositories };
+export { ClientsRepository };

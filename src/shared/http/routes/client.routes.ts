@@ -1,4 +1,6 @@
 import { CreateClientController } from "@modules/client/useCases/createClient/CreateClientController";
+import { ListAllClientsController } from "@modules/client/useCases/listAllClients/ListAllClientsController";
+import { ListClientsByUserIdController } from "@modules/client/useCases/listClientsByUserId/ListClientsByUserIdController";
 import { UpdateClientController } from "@modules/client/useCases/updateClient/UpdateClientController";
 import { Router } from "express";
 
@@ -8,8 +10,14 @@ const clientRoutes = Router();
 
 const createClientController = new CreateClientController();
 const updateClientController = new UpdateClientController();
+const listAllClientsController = new ListAllClientsController();
+const listClientsByUserIdController = new ListClientsByUserIdController();
 
-clientRoutes.post("/create", ensureAuthenticated, createClientController.handle);
-clientRoutes.put("/update", ensureAuthenticated, updateClientController.handle);
+clientRoutes.use(ensureAuthenticated);
+
+clientRoutes.get("/listbyuser", listClientsByUserIdController.handle);
+clientRoutes.get("/listall", listAllClientsController.handle);
+clientRoutes.post("/create", createClientController.handle);
+clientRoutes.put("/update", updateClientController.handle);
 
 export { clientRoutes };

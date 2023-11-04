@@ -1,6 +1,6 @@
 import { ICreateClientDTO } from "@modules/client/dtos/ICreateClientDTO";
 import { Client } from "@modules/client/entities/Client";
-import { IClientsRepositories } from "@modules/client/repositories/IClientsRepositories";
+import { IClientsRepository } from "@modules/client/repositories/IClientsRepository";
 import { inject, injectable } from "tsyringe";
 import { v4 } from "uuid";
 
@@ -9,8 +9,8 @@ import { AppError } from "@shared/errors/AppError";
 @injectable()
 class CreateClientUseCase {
   constructor(
-    @inject("ClientsRepositories")
-  private clientsRepositories: IClientsRepositories,
+    @inject("ClientsRepository")
+  private clientsRepository: IClientsRepository,
   ) {}
 
   async execute({
@@ -19,13 +19,13 @@ class CreateClientUseCase {
   }: ICreateClientDTO): Promise<void> {
     let client: Client;
 
-    client = await this.clientsRepositories.findByEmail(email);
+    client = await this.clientsRepository.findByEmail(email);
 
     if ((client) && (client.email === email)) {
       throw new AppError("Email already registered");
     }
 
-    client = await this.clientsRepositories.findByDriverLicense(driverLicense);
+    client = await this.clientsRepository.findByDriverLicense(driverLicense);
 
     if ((client) && (client.driverLicense === driverLicense)) {
       throw new AppError("Driver License already registered");
@@ -34,7 +34,7 @@ class CreateClientUseCase {
     const id = v4();
 
     try {
-      await this.clientsRepositories.create({
+      await this.clientsRepository.create({
         id,
         name,
         email,

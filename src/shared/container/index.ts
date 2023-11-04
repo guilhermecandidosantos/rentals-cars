@@ -2,13 +2,13 @@ import { UsersRepository } from "@modules/account/repositories/implementations/U
 import { UsersTokensRepository } from "@modules/account/repositories/implementations/UsersTokensRepository";
 import { IUsersRepository } from "@modules/account/repositories/IUsersRepository";
 import { IUsersTokensRepository } from "@modules/account/repositories/IUsersTokensRepository";
-import { IClientsRepositories } from "@modules/client/repositories/IClientsRepositories";
-import { ClientsRepositories } from "@modules/client/repositories/implementations/ClientsRepositories";
+import { ICategoriesRepository } from "@modules/car/repositories/ICategoriesRepository";
+import { CategoriesRepository } from "@modules/car/repositories/implementations/CategoriesRepository";
+import { IClientsRepository } from "@modules/client/repositories/IClientsRepository";
+import { ClientsRepository } from "@modules/client/repositories/implementations/ClientsRepository";
 import { PrismaClient } from "@prisma/client";
 import { container } from "tsyringe";
 import "./provider/dateprovider";
-import { ICategoriesRepository } from "@modules/car/repositories/ICategoriesRepository";
-import { CategoriesRepository } from "@modules/car/repositories/implementations/CategoriesRepository";
 
 container.register<PrismaClient>("PrismaClient", { useValue: new PrismaClient() });
 
@@ -22,9 +22,9 @@ container.registerSingleton<IUsersTokensRepository>(
   UsersTokensRepository,
 );
 
-container.registerSingleton<IClientsRepositories>(
-  "ClientsRepositories",
-  ClientsRepositories,
+container.registerSingleton<IClientsRepository>(
+  "ClientsRepository",
+  ClientsRepository,
 );
 
 container.registerSingleton<ICategoriesRepository>(

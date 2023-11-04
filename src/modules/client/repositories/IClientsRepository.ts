@@ -1,7 +1,7 @@
 import { ICreateClientDTO } from "../dtos/ICreateClientDTO";
 import { Client } from "../entities/Client";
 
-interface IClientsRepositories {
+interface IClientsRepository {
   create({
     name, email, driverLicense, validityDriverLicense, phone01,
     phone02, phone03, phone04, userIdCreated,
@@ -13,6 +13,8 @@ interface IClientsRepositories {
   }: ICreateClientDTO): Promise<Client>
   findByEmail(email: string): Promise<Client>
   findByDriverLicense(driverLicense: string): Promise<Client>
+  listAll(): Promise<Client[]>
+  listByUserIdCreated(userId: string): Promise<Client[]>
 }
 
-export { IClientsRepositories };
+export { IClientsRepository };
